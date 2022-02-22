@@ -18,14 +18,19 @@ class greedySort:
                                 lines[1].replace('(','').replace(')','').split()
                                 )
                             )
-                print(self.PERMUTATION)
+                self.PERMUTATION.insert(0,0)
+                self.PERMUTATION.append(len(self.PERMUTATION))
         except OSError:
             print("Could not open file " + sys.argv[1])
         except IndexError:
             print("Please enter a file name.")
 
+    def greedySort(self):
+        print(self.PERMUTATION)
+
     def run(self):
-        pass
+        self.greedySort()
 
 if __name__ == "__main__":
     program = greedySort()
+    program.run()

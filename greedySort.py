@@ -21,7 +21,7 @@ class greedySort:
     def greedySort(self):
         n = len(self.PERMUTATION)
         for i in range(n):
-            if(i != abs(int(self.PERMUTATION[i]))):
+            if(i+1 != abs(int(self.PERMUTATION[i])) ):
                 # Find where the correct value is
                 distance = 0
                 for j in self.PERMUTATION:

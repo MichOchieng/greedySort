@@ -5,7 +5,7 @@ class greedySort:
     def __init__(self) -> None:
         self.initialize()
 
-    PERMUTATION = (list)
+    PERMUTATION = []
     STEP_NUMBER = 0
 
     def initialize(self):
@@ -13,8 +13,6 @@ class greedySort:
             with open(sys.argv[1]) as file:
                 lines            = file.readlines()
                 self.PERMUTATION = lines[1].replace('(','').replace(')','').split()
-                # self.PERMUTATION.insert(0,0)
-                # self.PERMUTATION.append(len(self.PERMUTATION))
         except OSError:
             print("Could not open file " + sys.argv[1])
         except IndexError:
@@ -22,20 +20,45 @@ class greedySort:
 
     def greedySort(self):
         n = len(self.PERMUTATION)
-        for x in range(n):
-            if(x != int(self.PERMUTATION[x])):
-                # Find where the correct value is 
-                # Reverse everything in the path up to that value
-                pass
+        for i in range(n):
+            if(i != abs(int(self.PERMUTATION[i]))):
+                # Find where the correct value is
+                distance = 0
+                for j in self.PERMUTATION:
+                    distance += 1
+                    if(abs(int(j)) == (i+1)):
+                        # Reverse everything in the path up to that value
+                        self.PERMUTATION[i:distance] = self.PERMUTATION[i:distance][::-1]
+                        # Reverse signs of values
+                        for k in range(distance-i):
+                            if(int(self.PERMUTATION[i+k]) < 0):
+                                temp = "+" + str(abs(int(self.PERMUTATION[i+k])))
+                                self.PERMUTATION[i+k] = temp
+                            else:
+                                temp = "-" + str(abs(int(self.PERMUTATION[i+k])))
+                                self.PERMUTATION[i+k] = temp
+                        self.displayPermutation()
+                # Switch the sign of the number if needed
+                if(int(self.PERMUTATION[i]) < 0 and abs(int(self.PERMUTATION[i])) == (i+1)):
+                    temp = "+" + str(abs(int(self.PERMUTATION[i])))
+                    self.PERMUTATION[i] = temp
+                    self.displayPermutation()
+            else:
+                # If the value is in the correct position but has an incorrect sign flip the sign
+                if(int(self.PERMUTATION[i]) < 0):
+                    temp = "+" + str(abs(int(self.PERMUTATION[i])))
+                    self.PERMUTATION[i] = temp
+                    self.displayPermutation()
 
     def displayPermutation(self):
         self.STEP_NUMBER += 1
         print("(" + str(self.STEP_NUMBER) + ")", end=" ")
         for val in self.PERMUTATION:
             print(val, end=" ")
+        print()
 
     def run(self):
-        self.displayPermutation()
+        self.greedySort()
 
 if __name__ == "__main__":
     program = greedySort()
